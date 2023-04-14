@@ -1,50 +1,64 @@
-﻿using AR.Data.Interfaces;
-using AR.Domain;
+﻿using AR.Domain.Entidades;
+using AR.Domain.Interfaces.Repository;
+using Microsoft.DotNet.Scaffolding.Shared;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace AR.Data.Repositories
 {
     public class FuncionarioRepository : IFuncionarioRepository
     {
         private readonly DataContext _db;
+        private readonly ILogger<FuncionarioRepository> _log;
 
-        public FuncionarioRepository(DataContext db)
+        public FuncionarioRepository(DataContext db, ILogger<FuncionarioRepository> _log)
         {
             _db = db;
+            _log = _log;
         }
 
-        public IQueryable<Funcionario> GetAll()
+
+        public Task<List<Funcionario>> GetAll()
         {
-            return _db.Funcionarios;
+            _log.LogInformation("Acessing Database for search all employees.");
+            try
+            {
+                throw; 
+            }
+            catch (Exception ex)
+            {
+                _log.LogError(ex, "Error when trying to get all employees in the database");
+                throw;
+            }
         }
 
-        public async Task<IQueryable<Funcionario>> GetById(Guid id)
+        public Task<Funcionario> GetById(Guid id)
         {
-            IQueryable<Funcionario> query = _db.Funcionarios;
-            query = query.AsNoTracking()
-                         .OrderBy(func => func.Id);
-            await query.FirstOrDefaultAsync(a => a.Id == id);
-            return query;
+            throw new NotImplementedException();
         }
 
         public async Task Add(Funcionario funcionario)
         {
-            await _db.AddAsync(funcionario);
-            await _db.SaveChangesAsync();
+            _log.LogInformation("registering employee to the database.");
+            try
+            {
+                await _db.AddAsync(funcionario);
+            }
+            catch (Exception ex)
+            {
+                _log.LogError(ex, "Error when trying registering employee to the database.");
+                throw;
+            }
         }
 
-        public async Task<Funcionario> Update(Guid id)
+        public Task UpdateData(Guid id)
         {
-            var funcionarioEncontrado = GetById(id);
-            _db.Update(funcionarioEncontrado);
-            await _db.SaveChangesAsync();
+            throw new NotImplementedException();
         }
 
-        public async Task Remove(Guid id)
+        public Task Remove(Guid id)
         {
-            var funcionarioEncontrado = GetById(id);
-            _db.Remove(funcionarioEncontrado);
-            await _db.SaveChangesAsync();
+            throw new NotImplementedException();
         }
 
     }

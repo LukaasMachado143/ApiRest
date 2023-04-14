@@ -1,4 +1,4 @@
-﻿using AR.Domain;
+﻿using AR.Domain.Entidades;
 using Microsoft.EntityFrameworkCore;
 
 namespace AR.Data
