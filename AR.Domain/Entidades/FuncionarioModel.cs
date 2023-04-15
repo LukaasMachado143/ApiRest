@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace AR.Domain.Entidades
 {
     [Table("Funcionarios")]
-    public class Funcionario
+    public class FuncionarioModel
     {
         [Key]
         public Guid Id { get; set; }

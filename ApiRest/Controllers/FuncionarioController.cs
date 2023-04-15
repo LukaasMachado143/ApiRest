@@ -1,7 +1,4 @@
-﻿using AR.Data.Interfaces;
-using AR.Domain;
-using AR.Domain.Interfaces.Repository;
-using Microsoft.AspNetCore.Http;
+﻿using AR.Domain.Interfaces.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiRest.Controllers
@@ -10,11 +7,21 @@ namespace ApiRest.Controllers
     [ApiController]
     public class FuncionarioController : ControllerBase
     {
-        private readonly IFuncionarioRepository _repository;
+        private readonly IFuncionarioService _funcionarioService;
+        private readonly ILogger<FuncionarioController> _logger;
 
-        public FuncionarioController(IFuncionarioRepository repository)
+        public FuncionarioController(IFuncionarioService funcionarioService, ILogger<FuncionarioController> logger)
         {
-            _repository = repository;
+            _funcionarioService = funcionarioService;
+            _logger = logger;
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Get() 
+        {
+            return Ok("Teste da API");
+        }
+        
     }
 }

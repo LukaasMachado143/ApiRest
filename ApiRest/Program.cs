@@ -1,8 +1,9 @@
 
 using AR.Data;
-using AR.Data.Interfaces;
 using AR.Data.Repositories;
 using AR.Domain.Interfaces.Repository;
+using AR.Domain.Interfaces.Service;
+using AR.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace ApiRest
@@ -13,18 +14,16 @@ namespace ApiRest
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
-            builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ApiRestTeste")));
-            builder.Services.AddScoped<IFuncionarioRepository, FuncionarioRepository>();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ApiRestTeste")));
+            builder.Services.AddScoped<IFuncionarioRepository, FuncionarioRepository>();
+            builder.Services.AddScoped<IFuncionarioService, FuncionarioService>();
+
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

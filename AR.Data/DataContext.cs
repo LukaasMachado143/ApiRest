@@ -9,6 +9,6 @@ namespace AR.Data
         {
         }
 
-        public DbSet<Funcionario> Funcionarios { get; set; }
+        public DbSet<FuncionarioModel> Funcionarios { get; set; }
     }
 }
