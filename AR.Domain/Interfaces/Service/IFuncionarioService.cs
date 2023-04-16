@@ -5,9 +5,9 @@ namespace AR.Domain.Interfaces.Service
     public interface IFuncionarioService
     {
         Task<FuncionarioModel[]> GetAll();
-        Task<FuncionarioModel> GetById(Guid id);
+        Task<FuncionarioModel> GetById(int id);
         Task Add(FuncionarioModel funcionario);
-        Task Remove(Guid id);
-        Task Update(Guid id);
+        Task Remove(int id, FuncionarioModel funcionario);
+        Task Update(int id, FuncionarioModel funcionario);
     }
 }

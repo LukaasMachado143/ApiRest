@@ -8,7 +8,7 @@ namespace AR.Domain.Entidades
     public class FuncionarioModel
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "The field: {0} can not be empty.")]
         [MaxLength(150, ErrorMessage = "The field: {0} can not exceed {1} character.")]
@@ -21,7 +21,7 @@ namespace AR.Domain.Entidades
         public string Surname { get; set; }
 
         [Required(ErrorMessage = "The field: {0} can not be empty.")]
-        [Range(14, 14, ErrorMessage = "The field: {0} must be {1} characters long.")]
+        //[Range(13, 13, ErrorMessage = "The field: {0} must be {1} characters long.")]
         public string CPF { get; set; }
 
         [Required(ErrorMessage = "The field: {0} can not be empty.")]

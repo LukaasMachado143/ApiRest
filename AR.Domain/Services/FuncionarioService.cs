@@ -20,7 +20,6 @@ namespace AR.Domain.Services
             try
             {
                 var ListaFuncionarios = _funcionarioRepository.GetAll();
-                if (ListaFuncionarios == null) { return null; }
                 return ListaFuncionarios;
             }
             catch (Exception e)
@@ -29,14 +28,13 @@ namespace AR.Domain.Services
             }
 
         }
-        public async Task<FuncionarioModel> GetById(Guid id)
+        public async Task<FuncionarioModel> GetById(int id)
         {
             try
             {
                 if (id != null)
                 {
                     var funcionarioEncontrado = await _funcionarioRepository.GetById(id);
-                    if (funcionarioEncontrado == null) { return null; }
                     return funcionarioEncontrado;
                 }
                 else
@@ -73,18 +71,19 @@ namespace AR.Domain.Services
             }
         }
 
-        public async Task Update(Guid id)
+        public async Task Update(int id, FuncionarioModel dadosAtualizado)
         {
 
             try
             {
-                if (await _funcionarioRepository.GetById(id) == null)
+                var funcionarioEncontrado = await _funcionarioRepository.GetById(id);
+                if (funcionarioEncontrado.Id == id && funcionarioEncontrado != null)
                 {
-                    await _funcionarioRepository.UpdateData(id);
+                    await _funcionarioRepository.UpdateData(dadosAtualizado);
                 }
                 else
                 {
-                    throw new Exception("Funcionário com ID inexistente, não será possível editá-lo");
+                    throw new Exception("Funcionário inexistente, não será possível editá-lo");
                 }
 
             }
@@ -95,17 +94,18 @@ namespace AR.Domain.Services
             }
         }
 
-        public async Task Remove(Guid id)
+        public async Task Remove(int id, FuncionarioModel funcionarioDeletado)
         {
             try
             {
-                if (await _funcionarioRepository.GetById(id) == null)
+                var funcionarioEncontrado = await _funcionarioRepository.GetById(id);
+                if (funcionarioEncontrado.Id == id && funcionarioEncontrado != null)
                 {
-                    await _funcionarioRepository.RemoveEmployee(id);
+                    await _funcionarioRepository.RemoveEmployee(funcionarioDeletado);
                 }
                 else
                 {
-                    throw new Exception("Funcionário com ID inexistente, não será possível Removê-lo");
+                    throw new Exception("Funcionário inexistente, não será possível Removê-lo");
                 }
 
             }
@@ -115,6 +115,5 @@ namespace AR.Domain.Services
                 throw new Exception(e.Message);
             }
         }
-
     }
 }

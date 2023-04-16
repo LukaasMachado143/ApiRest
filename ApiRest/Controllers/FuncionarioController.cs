@@ -38,7 +38,7 @@ namespace ApiRest.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<IActionResult> Get(int id)
         {
             try
             {
@@ -63,11 +63,7 @@ namespace ApiRest.Controllers
             try
             {
                 _logger.LogInformation("Registering a new employee in the database.(Controller)");
-                var funcionarioRegistrado = _funcionarioService.Add(newEmployeeData);
-                if (funcionarioRegistrado == null) {
-                    _logger.LogInformation("Employee not registred.");
-                    return this.StatusCode(StatusCodes.Status406NotAcceptable, "There was a problem registering the new employee");
-                        }
+                await _funcionarioService.Add(newEmployeeData);
                 return this.StatusCode(StatusCodes.Status201Created, "Employee registred.(Controller).");            }
             catch (Exception e)
             {
@@ -76,6 +72,37 @@ namespace ApiRest.Controllers
             }
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, FuncionarioModel dadosAtualizados)
+        {
+            try
+            {
+                _logger.LogInformation("Changing employee data in the database.(Controller)");
+                await _funcionarioService.Update(id, dadosAtualizados);
+                return this.StatusCode(StatusCodes.Status202Accepted, "Employee changed.(Controller).");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error when trying changing employee data in the database. Error:{e}. (Controller)");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Error when trying changing employee data in the database. Error:{e}. Erro:{e}");
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id, FuncionarioModel dadosAtualizados)
+        {
+            try
+            {
+                _logger.LogInformation("Deleting employee in the database.(Controller)");
+                await _funcionarioService.Remove(id, dadosAtualizados);
+                return this.StatusCode(StatusCodes.Status202Accepted, "Employee deleted.(Controller).");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error when trying deleting employee in the database. Error:{e}. (Controller)");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Error when trying deleting employee in the database. Error:{e}. Erro:{e}");
+            }
+        }
 
     }
 }

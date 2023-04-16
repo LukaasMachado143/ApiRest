@@ -10,10 +10,10 @@ namespace AR.Data.Repositories
         private readonly DataContext _db;
         private readonly ILogger<FuncionarioRepository> _log;
 
-        public FuncionarioRepository(DataContext db, ILogger<FuncionarioRepository> _log)
+        public FuncionarioRepository(DataContext db, ILogger<FuncionarioRepository> log)
         {
             _db = db;
-            _log = _log;
+            _log = log;
         }
 
 
@@ -33,14 +33,13 @@ namespace AR.Data.Repositories
             }
         }
 
-        public async Task<FuncionarioModel> GetById(Guid id)
+        public async Task<FuncionarioModel> GetById(int id)
         {
             try
             {
                 _log.LogInformation("Acessing Database for search the employee by id.(Repository)");
                 IQueryable<FuncionarioModel> funcionario = _db.Funcionarios;
-                funcionario = funcionario.AsNoTracking();
-                return await funcionario.FirstOrDefaultAsync(x => x.Id == id);
+                return await funcionario.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
             }
             catch (Exception ex)
             {
@@ -54,8 +53,8 @@ namespace AR.Data.Repositories
             try
             {
                 _log.LogInformation("registering employee to the database.(Repository)");
-                _db.AddAsync(funcionario);
-                _db.SaveChangesAsync();
+                await _db.AddAsync(funcionario);
+                await _db.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -64,14 +63,13 @@ namespace AR.Data.Repositories
             }
         }
 
-        public async Task UpdateData(Guid id)
+        public async Task UpdateData(FuncionarioModel dadosAtualizados)
         {
             try
             {
                 _log.LogInformation("Changing employee data in the database.(Repository)");
-                var funcionarioEncontrado = GetById(id);
-                _db.Update(funcionarioEncontrado);
-                _db.SaveChangesAsync();
+                _db.Update(dadosAtualizados);
+                await _db.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -81,14 +79,13 @@ namespace AR.Data.Repositories
 
         }
 
-        public async Task RemoveEmployee(Guid id)
+        public async Task RemoveEmployee(FuncionarioModel funcionarioDeletado)
         {
             try
             {
                 _log.LogInformation("Removing employee in the database.(Repository)");
-                var funcionarioEncontrado = GetById(id);
-                _db.Remove(funcionarioEncontrado);
-                _db.SaveChangesAsync();
+                _db.Remove(funcionarioDeletado);
+                await _db.SaveChangesAsync();
             }
             catch (Exception ex)
             {
