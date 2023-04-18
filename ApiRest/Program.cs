@@ -21,6 +21,8 @@ namespace ApiRest
             builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ApiRestTeste")));
             builder.Services.AddScoped<IFuncionarioRepository, FuncionarioRepository>();
             builder.Services.AddScoped<IFuncionarioService, FuncionarioService>();
+            builder.Services.AddScoped<IEventoRepository, EventoRepository>();
+            builder.Services.AddScoped<IEventoService, EventoService>();
 
             var app = builder.Build();
 
