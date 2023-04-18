@@ -31,12 +31,5 @@ namespace AR.Domain.Entidades
         [Required(ErrorMessage = "The field: {0} can not be empty.")]
         public DateTime InclusionDate { get; set; }
 
-        [Required(ErrorMessage = "The field: {0} can not be empty.")]
-        [DefaultValue(0)]
-        public int QuantityEventWorked { get; set; }
-
-        [Required(ErrorMessage = "The field: {0} can not be empty.")]
-        [DefaultValue(0)]
-        public int QuantityEventPlanned { get; set; }
     }
 }
