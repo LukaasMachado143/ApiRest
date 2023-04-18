@@ -15,15 +15,15 @@ namespace AR.Domain.Models
         public int Id { get; set; }
         [Required(ErrorMessage = "The field: {0} can not be empty.")]
         [DataType(DataType.Date)]
-        public DateOnly EventDate { get; set; }
+        public string EventDate { get; set; }
         public string? Period { get; set; }
         public int? AmountGuests { get; set; }
         public string? Address { get; set; }
         public string?  AdressComplement{ get; set; }
         [DataType(DataType.Time)]
-        public TimeOnly? ArrivalTime { get; set; }
+        public string? ArrivalTime { get; set; }
         public int? AmountWaiters { get; set; }
-        public List<string>? NameWaiters { get; set; }
+        public string? NameWaiters { get; set; }
         public decimal? ServiceValue { get; set; }
 
 
