@@ -35,7 +35,7 @@ namespace AR.Domain.Services
         {
             try
             {
-                if ( id < 0 ) 
+                if ( id != null ) 
                 {
                     _log.LogInformation("Call method 'GetEventById' of repository.(Service)");
                     var eventoEspecífico = _eventoRepository.GetEventById(id);
