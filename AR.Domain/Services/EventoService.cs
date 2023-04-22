@@ -35,9 +35,18 @@ namespace AR.Domain.Services
         {
             try
             {
-                _log.LogInformation("Call method 'GetEventById' of repository.(Service)");
-                var eventoEspecífico = _eventoRepository.GetEventById(id);
-                return eventoEspecífico;
+                if ( id < 0 ) 
+                {
+                    _log.LogInformation("Call method 'GetEventById' of repository.(Service)");
+                    var eventoEspecífico = _eventoRepository.GetEventById(id);
+                    return eventoEspecífico;
+                }
+                else
+                {
+                    _log.LogInformation("The parameter gived is null, please verify data given.");
+                    throw new Exception("The parameter gived is null, please verify data given.");
+                }
+
             }
             catch (Exception e)
             {
@@ -50,9 +59,18 @@ namespace AR.Domain.Services
         {
             try
             {
-                _log.LogInformation("Call method 'AddEvent' of repository.(Service)");
-                var eventoAdicionado = _eventoRepository.AddEvent(evento);
-                return eventoAdicionado;
+                if (evento != null)
+                {
+                    _log.LogInformation("Call method 'AddEvent' of repository.(Service)");
+                    var eventoAdicionado = _eventoRepository.AddEvent(evento);
+                    return eventoAdicionado;
+                }
+                else
+                {
+                    _log.LogInformation("The parameter gived is null, please verify data given.");
+                    throw new Exception("The parameter gived is null, please verify data given.");
+                }
+
             }
             catch (Exception e)
             {
@@ -65,16 +83,21 @@ namespace AR.Domain.Services
         {
             try
             {
-                if (id != null) 
+                if (id < 0 && evento != null) 
                 {
                     var eventoEncontrado = await _eventoRepository.GetEventById(id);
-                    if(eventoEncontrado != null && eventoEncontrado.Id = id) {
+                    if(eventoEncontrado != null) {
                         _log.LogInformation("Call method 'UpdateDataEvent' of repository.(Service)");
-                        var eventoAlterado = _eventoRepository.UpdateDataEvent(evento);
+                        await _eventoRepository.UpdateDataEvent(evento);
                     }
 
                 }
-                
+                else
+                {
+                    _log.LogInformation("The parameter gived is null, please verify data given.");
+                    throw new Exception("The parameter gived is null, please verify data given.");
+                }
+
             }
             catch (Exception e)
             {
@@ -83,9 +106,32 @@ namespace AR.Domain.Services
             }
         }
 
-        public Task RemoveEvent(int id, EventoModel evento)
+        public async Task RemoveEvent(int id, EventoModel evento)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (id < 0 && evento != null)
+                {
+                    var eventoEncontrado = await _eventoRepository.GetEventById(id);
+                    if (eventoEncontrado != null)
+                    {
+                        _log.LogInformation("Call method 'UpdateDataEvent' of repository.(Service)");
+                        await _eventoRepository.RemoveEvent(evento);
+                    }
+
+                }
+                else
+                {
+                    _log.LogInformation("The parameter gived is null, please verify data given.");
+                    throw new Exception("The parameter gived is null, please verify data given.");
+                }
+
+            }
+            catch (Exception e)
+            {
+                _log.LogError($"Have an error when trying to call method 'UpdateDataEvent' of repository.(Service) | Error: {e.Message}");
+                throw new Exception($"Have an error when trying to call method 'UpdateDataEvent' of repository.(Service) | Error: {e.Message}");
+            }
         }
     }
 }
